@@ -8,28 +8,22 @@ from openai import OpenAI
 
 nltk.download('punkt_tab')
 
-mountains = []
-with open('datasets/top_100_mountain_names.csv', mode='r', newline='') as file:
-    csv_reader = csv.reader(file)
-    for row in csv_reader:
-        mountains.append(row[1])
+mountains = pd.read_csv('datasets/top_100_mountain_names.csv')['Mountain Name'].tolist()
 
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 
 def generate_mountain_sentences(mountain_list, num_sentences=2):
     generated_data = pd.DataFrame(columns=['sentence', 'mountain'])
     for mountain in mountain_list:
-        prompt = f"Write {num_sentences} sentences mentioning {mountain} name."
+        prompt = f'Write {num_sentences} sentences mentioning {mountain} name.'
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model='gpt-3.5-turbo',
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt}
+                {'role': 'system', 'content': 'You are a helpful assistant.'},
+                {'role': 'user', 'content': prompt}
             ],
             max_tokens=300,
-            temperature=0.7
         )
         text = response.choices[0].message.content.strip()
         sentences = sent_tokenize(text)
