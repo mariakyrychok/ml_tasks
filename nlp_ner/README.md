@@ -27,16 +27,14 @@ For access to the key or further details, feel free to contact me.
 with mountain names tagged as entities for training the NER model.
 
 ## Model Training
-1. The dataset was tokenized using the `BertTokenizerFast`, and token labels were aligned based on 
-a custom tag-to-ID mapping scheme. 
+1. The dataset was tokenized using the `BertTokenizerFast`. 
 2. The model was fine-tuned on the annotated dataset using the `Trainer` class from the Hugging Face Transformers library.
 3. The `seqeval` metric was employed for model evaluation, enabling fine-tuning by measuring the accuracy of 
-token classification across entities like mountains.
+token classification.
 
 ## Model inference
-1. The input text is first split into tokens using nltk's word tokenizer. 
-2. The tokens are then passed to the BERT tokenizer for further processing, ensuring they are properly formatted for the model. 
-3. Once the tokens are passed through the model, predicted labels are returned, and these are mapped back to their 
+1. Sentence is split into tokens with pre-trained BERT tokenizer. 
+2. Then the tokens are passed through the model, predicted labels are returned, and these are mapped back to their 
 corresponding entity tags, distinguishing between entities like B-MOUNTAIN and I-MOUNTAIN.
 
 ## Link to model weight

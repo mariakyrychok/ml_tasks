@@ -1,19 +1,15 @@
 import torch
-from nltk.tokenize import word_tokenize
-import nltk
-nltk.download('punkt')
 
 tag2id = {'O': 0, 'B-MOUNTAIN': 1, 'I-MOUNTAIN': 2}
 id2tag = {v: k for k, v in tag2id.items()}
 
 
-def predict(model, tokenizer, tokens):
+def predict(model, tokenizer, sentence):
     device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
     model = model.to(device)
 
     inputs = tokenizer(
-        tokens,
-        is_split_into_words=True,
+        sentence,
         return_tensors='pt',
         truncation=True,
         padding=True
@@ -78,7 +74,6 @@ def extract_mountains(tokens, tags):
 
 def infer(model, tokenizer, sentence):
     model.eval()
-    tokens = word_tokenize(sentence)
-    predicted_tags, tokens_from_ids = predict(model, tokenizer, tokens)
+    predicted_tags, tokens_from_ids = predict(model, tokenizer, sentence)
     mountains = extract_mountains(tokens_from_ids, predicted_tags)
     return tokens_from_ids, predicted_tags, mountains
