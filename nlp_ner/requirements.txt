@@ -1,0 +1,12 @@
+asttokens==2.4.1
+datasets==3.0.1
+evaluate==0.4.3
+jupyter==1.1.1
+nltk==3.9.1
+numpy==2.1.2
+openai==1.51.2
+pandas==2.2.3
+regex==2024.9.11
+scikit-learn==1.5.2
+torch==2.4.1
+transformers==4.45.2
